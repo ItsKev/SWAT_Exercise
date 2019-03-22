@@ -44,22 +44,22 @@ public class UserManagerImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void Given_loginUser_When_WrongPassword_Then_ThrowException() {
+    public void When_LoginUserWithWrongPassword_Then_ThrowException() {
         userManager.loginUser("Test", "1111");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void Given_loginUser_When_UserNotPresent_Then_ThrowException() {
+    public void When_LoginUserWithUserNotPresent_Then_ThrowException() {
         userManager.loginUser("Tom", "1234");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void Given_loginUser_When_UserNameIsNull_Then_ThrowException() {
+    public void When_LoginUserWithUserNameIsNull_Then_ThrowException() {
         userManager.loginUser(null, "1234");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void Given_loginUser_When_UserNameIsEmpty_Then_ThrowException() {
+    public void When_LoginUserWithUserNameIsEmpty_Then_ThrowException() {
         userManager.loginUser(null, "1234");
     }
 }

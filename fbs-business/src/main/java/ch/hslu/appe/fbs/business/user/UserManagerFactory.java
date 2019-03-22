@@ -1,6 +1,5 @@
 package ch.hslu.appe.fbs.business.user;
 
-import ch.hslu.appe.fbs.data.user.UserPersistor;
 import ch.hslu.appe.fbs.data.user.UserPersistorFactory;
 
 public class UserManagerFactory {
