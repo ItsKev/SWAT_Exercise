@@ -14,8 +14,8 @@ public class UserManagerImpl implements UserManager {
     private final UserPersistor userPersistor;
     private UserWrapper userWrapper;
 
-    public UserManagerImpl() {
-        this.userPersistor = UserPersistorFactory.createUserPersistor();
+    public UserManagerImpl(UserPersistor userPersistor) {
+        this.userPersistor = userPersistor;
         this.userWrapper = new UserWrapper();
     }
 
