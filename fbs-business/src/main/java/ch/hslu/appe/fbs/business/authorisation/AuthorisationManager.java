@@ -9,6 +9,9 @@ import java.util.*;
 
 public final class AuthorisationManager {
 
+    private AuthorisationManager() {
+    }
+
     private static final Map<String, List<UserPermissions>> PERMISSIONS = new HashMap<>();
 
     static {
@@ -30,12 +33,6 @@ public final class AuthorisationManager {
     }
 
     public static void checkUserAuthorisation(final UserDTO userDTO, final UserPermissions userPermission) throws UserNotAuthorisedException {
-        if (userDTO == null) {
-            throw new IllegalArgumentException("user object can't be a null reference");
-        }
-        if (userPermission == null) {
-            throw new IllegalArgumentException("permission object can't be a null reference");
-        }
         final boolean permissionGranted = checkUserPermission(userDTO, userPermission);
         if (!permissionGranted) {
             throw new UserNotAuthorisedException(userPermission);
@@ -43,12 +40,6 @@ public final class AuthorisationManager {
     }
 
     public static boolean checkUserPermission(final UserDTO userDTO, final UserPermissions userPermission) {
-        if (userDTO == null) {
-            throw new IllegalArgumentException("user object can't be a null reference");
-        }
-        if (userPermission == null) {
-            throw new IllegalArgumentException("permission object can't be a null reference");
-        }
         final String userRole = userDTO.getUserRole().getUserRole();
         final List<UserPermissions> userPermissions = PERMISSIONS.get(userRole);
         return userPermissions.contains(userPermission) || userPermissions.contains(UserPermissions.ADMIN);

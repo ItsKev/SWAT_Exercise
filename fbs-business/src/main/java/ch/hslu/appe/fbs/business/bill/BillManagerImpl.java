@@ -40,9 +40,7 @@ public final class BillManagerImpl implements BillManager {
     public List<BillDTO> getAllBills() {
         synchronized (LOCK) {
             final List<BillDTO> bills = new ArrayList<>();
-            this.billPersistor.getAll().forEach(bill -> {
-                bills.add(this.billWrapper.dtoFromEntity(bill));
-            });
+            this.billPersistor.getAll().forEach(bill -> bills.add(this.billWrapper.dtoFromEntity(bill)));
             return bills;
         }
     }
@@ -62,9 +60,7 @@ public final class BillManagerImpl implements BillManager {
     public List<BillDTO> getBillsByOrderId(int orderId) {
         synchronized (LOCK) {
             final List<BillDTO> bills = new ArrayList<>();
-            this.billPersistor.getByOrderId(orderId).forEach(bill -> {
-                bills.add(this.billWrapper.dtoFromEntity(bill));
-            });
+            this.billPersistor.getByOrderId(orderId).forEach(bill -> bills.add(this.billWrapper.dtoFromEntity(bill)));
             return bills;
         }
     }

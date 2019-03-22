@@ -41,7 +41,7 @@ public interface ItemManager {
      * @return The local (available) stock of the specified item
      * @throws IllegalArgumentException If the specified id doesn't represent a valid item
      */
-    int getAvailableItemQuantity(int id) throws IllegalArgumentException;
+    int getAvailableItemQuantity(int id);
 
     /**
      * Refills the item stock

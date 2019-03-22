@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getCustomer(int customerId) throws RemoteException, IllegalArgumentException, UserNotAuthorisedException {
+    public CustomerDTO getCustomer(int customerId) throws RemoteException, UserNotAuthorisedException {
         final UserDTO userDTO = UserSessionDictionary.getUserSession();
         return this.customerManager.getCustomer(customerId, userDTO);
     }
@@ -43,19 +43,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<OrderDTO> getOrders(int customerId) throws RemoteException, IllegalArgumentException, UserNotAuthorisedException {
+    public List<OrderDTO> getOrders(int customerId) throws RemoteException, UserNotAuthorisedException {
         final UserDTO userDTO = UserSessionDictionary.getUserSession();
         return this.orderManager.getOrders(customerId, userDTO);
     }
 
     @Override
-    public List<BillDTO> getRemindedBills(int customerId) throws RemoteException, IllegalArgumentException, UserNotAuthorisedException {
+    public List<BillDTO> getRemindedBills(int customerId) throws RemoteException, UserNotAuthorisedException {
         final UserDTO userDTO = UserSessionDictionary.getUserSession();
         return this.billManager.getRemindedBillsByCustomerId(customerId, userDTO);
     }
 
     @Override
-    public void createOrder(OrderDTO orderDTO) throws RemoteException, IllegalArgumentException, UserNotAuthorisedException {
+    public void createOrder(OrderDTO orderDTO) throws RemoteException, UserNotAuthorisedException {
         if (orderDTO == null) {
             throw new IllegalArgumentException("object reference can't be null");
         }
@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void createCustomer(CustomerDTO customerDTO) throws RemoteException, IllegalArgumentException, UserNotAuthorisedException {
+    public void createCustomer(CustomerDTO customerDTO) throws RemoteException, UserNotAuthorisedException {
         if (customerDTO == null) {
             throw new IllegalArgumentException("object reference can't be null");
         }
@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void cancelOrder(OrderDTO orderDTO) throws RemoteException, IllegalArgumentException, UserNotAuthorisedException {
+    public void cancelOrder(OrderDTO orderDTO) throws RemoteException, UserNotAuthorisedException {
         if (orderDTO == null) {
             throw new IllegalArgumentException("object reference can't be null");
         }

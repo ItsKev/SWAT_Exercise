@@ -5,6 +5,9 @@ import org.apache.logging.log4j.LogManager;
 
 public class Logger {
 
+    private Logger() {
+    }
+
     private static final org.apache.logging.log4j.Logger LOG = LogManager.getLogger(Logger.class.getName());
 
     public static void logInfo(String username, String message) {

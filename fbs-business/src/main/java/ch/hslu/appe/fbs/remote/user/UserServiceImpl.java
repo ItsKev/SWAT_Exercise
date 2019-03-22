@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO performLogin(String name, String password) throws IllegalArgumentException, RemoteException {
+    public UserDTO performLogin(String name, String password) throws RemoteException {
         final UserDTO userDTO = this.userManager.loginUser(name, password);
         UserSessionDictionary.addUserSession(userDTO);
         return userDTO;

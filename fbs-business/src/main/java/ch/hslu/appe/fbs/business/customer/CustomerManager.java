@@ -26,7 +26,7 @@ public interface CustomerManager {
      * @throws IllegalArgumentException In case the customer with the given id is not found
      * @throws UserNotAuthorisedException In case the specified user isn't authorised to execute this action
      */
-    CustomerDTO getCustomer(int customerId, UserDTO userDTO) throws IllegalArgumentException, UserNotAuthorisedException;
+    CustomerDTO getCustomer(int customerId, UserDTO userDTO) throws UserNotAuthorisedException;
 
     /**
      * Creates a new customer.
