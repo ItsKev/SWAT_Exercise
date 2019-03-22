@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+
+<SplitPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="ch.hslu.appe.fbs.client.Userinterface.Shared.SpecificOrderController"  dividerPositions="0.2835570469798658" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label fx:id="SpecificOrderCustomer" text="Kunde" />
+                        <Label fx:id="SpecificOrderUser" text="Bestellt von" />
+                        <Label fx:id="SpecificOrderTimestamp" text="Zeitstempel" />
+                        <Label fx:id="SpecificOrderState" text="Bestellstatus" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="400.0">
+            <children>
+                <TableView fx:id="SpecificItemTable" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" fx:id="x2" />
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="SpecificIdColumn" minWidth="10.0" text="id" />
+                        <TableColumn fx:id="SpecificNameColumn" minWidth="200" prefWidth="200" text="name" />
+                        <TableColumn fx:id="SpecificPriceColumn" minWidth="10.0" text="price" />
+                        <TableColumn fx:id="SpecificArtnrColumn" minWidth="10.0" text="artNr" />
+                        <TableColumn fx:id="SpecificQuantityColumn" minWidth="10.0" text="quantity" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>

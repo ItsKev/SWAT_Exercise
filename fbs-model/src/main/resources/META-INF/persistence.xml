@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="FBS_PU">
+        <class>ch.hslu.appe.fbs.model.db.Bill</class>
+        <class>ch.hslu.appe.fbs.model.db.Customer</class>
+        <class>ch.hslu.appe.fbs.model.db.Item</class>
+        <class>ch.hslu.appe.fbs.model.db.Order</class>
+        <class>ch.hslu.appe.fbs.model.db.OrderItem</class>
+        <class>ch.hslu.appe.fbs.model.db.OrderState</class>
+        <class>ch.hslu.appe.fbs.model.db.Reminder</class>
+        <class>ch.hslu.appe.fbs.model.db.Reorder</class>
+        <class>ch.hslu.appe.fbs.model.db.User</class>
+        <class>ch.hslu.appe.fbs.model.db.UserRole</class>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://db-appe.el.eee.intern:3306/grp05"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="grp05"/>
+            <property name="javax.persistence.jdbc.password" value="SVXQrw#EGSW3%2rEE%Zv1bFAvt5GDD5"/>
+        </properties>
+    </persistence-unit>
+</persistence>

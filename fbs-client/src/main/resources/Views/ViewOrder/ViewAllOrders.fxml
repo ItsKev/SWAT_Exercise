@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ch.hslu.appe.fbs.client.Userinterface.ViewOrderController.ViewAllOrdersController">
+  <children>
+    <SplitPane dividerPositions="0.5" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="80" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <items>
+        <TableView onMouseClicked="#itemSelected" fx:id="OverviewTable" prefHeight="400.0" prefWidth="600.0">
+          <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" fx:id="x1" />
+          </columnResizePolicy>
+          <columns>
+            <TableColumn minWidth="80.0" text="Kunde" fx:id="CustomerColumn" />
+            <TableColumn minWidth="0.0" text="Bestellt von" fx:id="UserColumn" />
+            <TableColumn minWidth="80.0" text="Zeitstempel" fx:id="TimeStampColumn" />
+            <TableColumn minWidth="150.0" text="Bestellstatus" fx:id="OrderStateColumn" />
+          </columns>
+        </TableView>
+        <AnchorPane fx:id="SpecificOrderAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+      </items>
+    </SplitPane>
+    <AnchorPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"  AnchorPane.bottomAnchor="0.0" minHeight="80" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+      <children>
+        <Button onAction="#cancelOrderButtonPressed" alignment="BOTTOM_RIGHT" mnemonicParsing="false" text="Löschen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+        <Button onAction="#editOrderButtonPressed" mnemonicParsing="false" text="Bearbeiten" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="20.0" />
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>
