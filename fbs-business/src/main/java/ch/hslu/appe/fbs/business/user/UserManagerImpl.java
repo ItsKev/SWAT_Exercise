@@ -3,7 +3,6 @@ package ch.hslu.appe.fbs.business.user;
 import ch.hslu.appe.fbs.business.logger.Logger;
 import ch.hslu.appe.fbs.common.dto.UserDTO;
 import ch.hslu.appe.fbs.data.user.UserPersistor;
-import ch.hslu.appe.fbs.data.user.UserPersistorFactory;
 import ch.hslu.appe.fbs.model.db.User;
 import ch.hslu.appe.fbs.wrapper.UserWrapper;
 
@@ -20,7 +19,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public UserDTO loginUser(String name, String password) throws IllegalArgumentException {
+    public UserDTO loginUser(String name, String password) {
         if (name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException("user name can be neither a null reference nor an empty string");
         }

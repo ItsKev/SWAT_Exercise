@@ -8,14 +8,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,8 +38,28 @@ public class UserManagerImplTest {
     }
 
     @Test
-    public void loginUser() {
+    public void When_loginUser_Then_GetUserDTO() {
         UserDTO loginUser = userManager.loginUser("Test", "1234");
         Assert.assertEquals("Test", loginUser.getUserName());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void Given_loginUser_When_WrongPassword_Then_ThrowException() {
+        userManager.loginUser("Test", "1111");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void Given_loginUser_When_UserNotPresent_Then_ThrowException() {
+        userManager.loginUser("Tom", "1234");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void Given_loginUser_When_UserNameIsNull_Then_ThrowException() {
+        userManager.loginUser(null, "1234");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void Given_loginUser_When_UserNameIsEmpty_Then_ThrowException() {
+        userManager.loginUser(null, "1234");
     }
 }
