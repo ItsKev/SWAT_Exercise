@@ -38,28 +38,28 @@ public class UserManagerImplTest {
     }
 
     @Test
-    public void When_loginUser_Then_GetUserDTO() {
+    public void loginUser_When_LoginSuccessful_Then_GetUserDTO() {
         UserDTO loginUser = userManager.loginUser("Test", "1234");
         Assert.assertEquals("Test", loginUser.getUserName());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void When_LoginUserWithWrongPassword_Then_ThrowException() {
+    public void loginUser_When_WrongPassword_Then_ThrowException() {
         userManager.loginUser("Test", "1111");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void When_LoginUserWithUserNotPresent_Then_ThrowException() {
+    public void loginUser_When_UserNotPresent_Then_ThrowException() {
         userManager.loginUser("Tom", "1234");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void When_LoginUserWithUserNameIsNull_Then_ThrowException() {
+    public void loginUser_When_UserNameIsNull_Then_ThrowException() {
         userManager.loginUser(null, "1234");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void When_LoginUserWithUserNameIsEmpty_Then_ThrowException() {
+    public void loginUser_When_UserNameIsEmpty_Then_ThrowException() {
         userManager.loginUser(null, "1234");
     }
 }
