@@ -24,7 +24,7 @@ public class OrderController {
     private ChoseCustomerController choseCustomerController;
 
     private Parent finnishOrderView;
-    private FinnishOrderController finnishOrderController;
+    private FinishOrderController finishOrderController;
 
     public OrderController() {
         FXMLLoader orderItemsViewLoader = new FXMLLoader();
@@ -44,7 +44,7 @@ public class OrderController {
             this.choseCustomerController = choseCustomerLoader.getController();
 
             this.finnishOrderView = finnishOrderLoader.load();
-            this.finnishOrderController = finnishOrderLoader.getController();
+            this.finishOrderController = finnishOrderLoader.getController();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class OrderController {
     public void initController() {
         this.orderItemsController.initController();
         this.choseCustomerController.initController();
-        this.finnishOrderController.initController();
+        this.finishOrderController.initController();
     }
 
     public void viewItemsPressed(ActionEvent actionEvent) {
@@ -76,7 +76,7 @@ public class OrderController {
         this.setSelectedButton(this.ViewFinnishOrderButton);
         this.anchorPane.getChildren().clear();
         this.anchorPane.getChildren().add(this.finnishOrderView);
-        this.finnishOrderController.initController();
+        this.finishOrderController.initController();
     }
 
     public void setSelectedButton(Button selectedButton) {
