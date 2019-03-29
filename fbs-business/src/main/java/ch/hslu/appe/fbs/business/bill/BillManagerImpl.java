@@ -29,9 +29,9 @@ public final class BillManagerImpl implements BillManager {
     private final BillWrapper billWrapper;
     private final OrderWrapper orderWrapper;
 
-    public BillManagerImpl() {
-        this.billPersistor = BillPersistorFactory.createBillPersistor();
-        this.reminderPersistor = ReminderPersistorFactory.createReminderPersistor();
+    public BillManagerImpl(BillPersistor billpersistor, ReminderPersistor reminderPersistor) {
+        this.billPersistor = billpersistor;
+        this.reminderPersistor = reminderPersistor;
         this.billWrapper = new BillWrapper();
         this.orderWrapper = new OrderWrapper();
     }

@@ -21,7 +21,7 @@ public class UserManagerImplTest {
     @Mock
     private UserPersistor userPersistorMock;
 
-    private UserManagerImpl userManager;
+    private UserManager userManager;
 
     @Before
     public void setUp() {
