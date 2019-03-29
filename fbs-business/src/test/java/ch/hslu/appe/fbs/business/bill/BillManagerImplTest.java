@@ -39,7 +39,6 @@ public class BillManagerImplTest {
         billManager = new BillManagerImpl(billPersistorMock, reminderPersistorMock);
         when(billPersistorMock.getAll()).thenReturn(createTesteeBills());
         when(billPersistorMock.getById(1)).thenReturn(Optional.of(createBill(1, 5, 10, 1)));
-        when(billPersistorMock.getByOrderId(2)).thenReturn(createTesteeBillsWithOrderId(10));
     }
 
     @Test
