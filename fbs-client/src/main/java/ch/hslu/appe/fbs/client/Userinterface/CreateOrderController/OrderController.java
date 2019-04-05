@@ -1,4 +1,4 @@
-package ch.hslu.appe.fbs.client.userinterface.createordercontroller;
+package ch.hslu.appe.fbs.client.Userinterface.CreateOrderController;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

@@ -1,8 +1,8 @@
-package ch.hslu.appe.fbs.client.userinterface.createordercontroller;
+package ch.hslu.appe.fbs.client.Userinterface.CreateOrderController;
 
 import ch.hslu.appe.fbs.client.UiModels.UiItem;
 import ch.hslu.appe.fbs.client.UiModels.UiOrderItem;
-import ch.hslu.appe.fbs.client.userinterface.Shared.CurrentOrderSingleton;
+import ch.hslu.appe.fbs.client.Userinterface.Shared.CurrentOrderSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;

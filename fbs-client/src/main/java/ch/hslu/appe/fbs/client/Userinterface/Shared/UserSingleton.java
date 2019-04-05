@@ -1,4 +1,4 @@
-package ch.hslu.appe.fbs.client.userinterface.Shared;
+package ch.hslu.appe.fbs.client.Userinterface.Shared;
 
 import ch.hslu.appe.fbs.common.dto.UserDTO;
 

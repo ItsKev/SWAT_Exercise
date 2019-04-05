@@ -1,4 +1,4 @@
-package ch.hslu.appe.fbs.client.userinterface.Shared;
+package ch.hslu.appe.fbs.client.Userinterface.Shared;
 
 import javafx.scene.control.Alert;
 

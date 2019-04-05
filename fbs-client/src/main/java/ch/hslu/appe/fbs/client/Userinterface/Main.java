@@ -1,7 +1,7 @@
-package ch.hslu.appe.fbs.client.userinterface;
+package ch.hslu.appe.fbs.client.Userinterface;
 
-import ch.hslu.appe.fbs.client.userinterface.Login.LoginController;
-import ch.hslu.appe.fbs.client.userinterface.Login.LoginObserver;
+import ch.hslu.appe.fbs.client.Userinterface.Login.LoginController;
+import ch.hslu.appe.fbs.client.Userinterface.Login.LoginObserver;
 import ch.hslu.appe.fbs.common.rmi.RmiLookupTable;
 import ch.hslu.appe.fbs.common.rmi.UserService;
 import javafx.application.Application;
