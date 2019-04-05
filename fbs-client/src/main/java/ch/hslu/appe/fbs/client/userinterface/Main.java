@@ -1,7 +1,7 @@
 package ch.hslu.appe.fbs.client.userinterface;
 
-import ch.hslu.appe.fbs.client.userinterface.Login.LoginController;
-import ch.hslu.appe.fbs.client.userinterface.Login.LoginObserver;
+import ch.hslu.appe.fbs.client.userinterface.login.LoginController;
+import ch.hslu.appe.fbs.client.userinterface.login.LoginObserver;
 import ch.hslu.appe.fbs.common.rmi.RmiLookupTable;
 import ch.hslu.appe.fbs.common.rmi.UserService;
 import javafx.application.Application;
@@ -37,7 +37,7 @@ public class Main extends Application implements LoginObserver {
         Parent content = loader.load();
         LoginController loginController = loader.getController();
         loginController.addObserver(this);
-        this.stage.setTitle("Login");
+        this.stage.setTitle("login");
         Scene scene = new Scene(content, 350, 400);
         scene.getStylesheets().add(getClass().getResource("/Styles/bootstrap3.css").toExternalForm());
         this.stage.setScene(scene);
