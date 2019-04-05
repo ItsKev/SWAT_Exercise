@@ -9,10 +9,14 @@ import ch.hslu.appe.fbs.remote.item.ItemServiceImpl;
 import ch.hslu.appe.fbs.remote.reorder.ReorderServiceImpl;
 import ch.hslu.appe.fbs.remote.rmi.RmiConnector;
 import ch.hslu.appe.fbs.remote.user.UserServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.rmi.RemoteException;
 
 public class RmiServer {
+
+    private static final Logger LOGGER = LogManager.getLogger(RmiServer.class);
 
     private static UserService userService;
     private static CustomerService customerService;
@@ -26,7 +30,7 @@ public class RmiServer {
             itemService = new ItemServiceImpl();
             reorderService = new ReorderServiceImpl();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 

@@ -1,9 +1,9 @@
-package ch.hslu.appe.fbs.client.Userinterface.ViewOrderController;
+package ch.hslu.appe.fbs.client.userinterface.ViewOrderController;
 
 import ch.hslu.appe.fbs.client.UiModels.UiOrder;
-import ch.hslu.appe.fbs.client.Userinterface.Shared.AlertMessages;
-import ch.hslu.appe.fbs.client.Userinterface.Shared.CurrentOrderSingleton;
-import ch.hslu.appe.fbs.client.Userinterface.Shared.SpecificOrderController;
+import ch.hslu.appe.fbs.client.userinterface.Shared.AlertMessages;
+import ch.hslu.appe.fbs.client.userinterface.Shared.CurrentOrderSingleton;
+import ch.hslu.appe.fbs.client.userinterface.Shared.SpecificOrderController;
 import ch.hslu.appe.fbs.common.dto.OrderDTO;
 import ch.hslu.appe.fbs.common.exception.UserNotAuthorisedException;
 import ch.hslu.appe.fbs.common.rmi.CustomerService;

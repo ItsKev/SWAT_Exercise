@@ -1,6 +1,8 @@
 package ch.hslu.appe.fbs.model;
 
 import ch.hslu.appe.fbs.model.db.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import java.sql.Timestamp;
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class DataPopulator {
+
+    private final static Logger LOGGER = LogManager.getLogger(DataPopulator.class);
 
     private final EntityManager entityManager;
 
@@ -93,7 +97,7 @@ final class DataPopulator {
             reorderDate = format.parse("2018-04-30");
             deliveredDate = reorderDate;
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
 
         final Reorder reorder1 = new Reorder();

@@ -15,6 +15,7 @@
  */
 package ch.hslu.appe.fbs.business.stock;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
@@ -24,34 +25,47 @@ import java.util.Objects;
  */
 public final class StockEntry implements Comparable<StockEntry> {
 
-    /** Default-Lagermenge. */
+    /**
+     * Default-Lagermenge.
+     */
     private static final int DEFAULT_COUNT = 100;
 
-    /** Maximale Lieferfrist. */
+    /**
+     * Maximale Lieferfrist.
+     */
     private static final int MAX_DELIVERY_DAYS = 14;
 
-    /** Artikelnummer. */
+    /**
+     * Artikelnummer.
+     */
     private final String key;
 
-    /** Lagermenge. */
+    /**
+     * Lagermenge.
+     */
     private int count = DEFAULT_COUNT;
 
-    /** Lieferdatum. */
+    /**
+     * Lieferdatum.
+     */
     private final Instant deliveryDate;
 
     /**
      * Konstruktor für StockEntry.
+     *
      * @param akey Artikel-Key.
      */
     public StockEntry(final String akey) {
         this.key = akey;
-        final long days = (long) (Math.random() * MAX_DELIVERY_DAYS + 1);
+
+        final long days = (long) (new SecureRandom().nextDouble() * MAX_DELIVERY_DAYS + 1);
         this.deliveryDate = Instant.now().plus(Duration.ofDays(days));
 
     }
 
     /**
      * Dekrementiert den Lagerbestand.
+     *
      * @param acount Artikelmenge.
      * @return Dekrement.
      */
@@ -65,6 +79,7 @@ public final class StockEntry implements Comparable<StockEntry> {
 
     /**
      * Liefert die aktuelle Artikelmenge.
+     *
      * @return the count.
      */
     public int getCount() {
@@ -73,6 +88,7 @@ public final class StockEntry implements Comparable<StockEntry> {
 
     /**
      * Setzt die Artikelmenge.
+     *
      * @param acount the count to set.
      */
     public void setCount(final int acount) {
@@ -81,6 +97,7 @@ public final class StockEntry implements Comparable<StockEntry> {
 
     /**
      * Liefert den Artikelkey.
+     *
      * @return the key.
      */
     public String getKey() {
@@ -89,6 +106,7 @@ public final class StockEntry implements Comparable<StockEntry> {
 
     /**
      * Getter für deliveryDate.
+     *
      * @return deliveryDate.
      */
     public Instant getDeliveryDate() {

@@ -1,6 +1,6 @@
-package ch.hslu.appe.fbs.client.Userinterface.Login;
+package ch.hslu.appe.fbs.client.userinterface.Login;
 
-import ch.hslu.appe.fbs.client.Userinterface.Shared.UserSingleton;
+import ch.hslu.appe.fbs.client.userinterface.Shared.UserSingleton;
 import ch.hslu.appe.fbs.common.dto.UserDTO;
 import ch.hslu.appe.fbs.common.rmi.RmiLookupTable;
 import ch.hslu.appe.fbs.common.rmi.UserService;
@@ -62,7 +62,7 @@ public class LoginController implements LoginSubject {
     @Override
     public void update() {
         for (LoginObserver observer : observers) {
-            observer.loginSuccesfull();
+            observer.loginSuccessful();
         }
     }
 
