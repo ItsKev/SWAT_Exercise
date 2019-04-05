@@ -11,7 +11,7 @@
 <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
             AnchorPane.topAnchor="0.0" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/2.2"
-            fx:controller="ch.hslu.appe.fbs.client.Userinterface.CreateOrderController.FinishOrderController">
+            fx:controller="ch.hslu.appe.fbs.client.userinterface.CreateOrderController.FinishOrderController">
     <children>
         <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                   AnchorPane.topAnchor="0.0">

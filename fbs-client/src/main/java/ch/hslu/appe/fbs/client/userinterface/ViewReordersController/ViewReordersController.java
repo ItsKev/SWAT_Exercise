@@ -1,8 +1,8 @@
-package ch.hslu.appe.fbs.client.Userinterface.ViewReordersController;
+package ch.hslu.appe.fbs.client.userinterface.ViewReordersController;
 
 import ch.hslu.appe.fbs.client.UiModels.UiItem;
 import ch.hslu.appe.fbs.client.UiModels.UiReorder;
-import ch.hslu.appe.fbs.client.Userinterface.Shared.AlertMessages;
+import ch.hslu.appe.fbs.client.userinterface.Shared.AlertMessages;
 import ch.hslu.appe.fbs.common.dto.ReorderDTO;
 import ch.hslu.appe.fbs.common.exception.UserNotAuthorisedException;
 import ch.hslu.appe.fbs.common.rmi.ReorderService;

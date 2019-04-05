@@ -1,6 +1,6 @@
-package ch.hslu.appe.fbs.client.Userinterface.CreateOrderController;
+package ch.hslu.appe.fbs.client.userinterface.CreateOrderController;
 
-import ch.hslu.appe.fbs.client.Userinterface.Shared.AlertMessages;
+import ch.hslu.appe.fbs.client.userinterface.Shared.AlertMessages;
 import ch.hslu.appe.fbs.common.dto.CustomerDTO;
 import ch.hslu.appe.fbs.common.exception.UserNotAuthorisedException;
 import ch.hslu.appe.fbs.common.rmi.CustomerService;

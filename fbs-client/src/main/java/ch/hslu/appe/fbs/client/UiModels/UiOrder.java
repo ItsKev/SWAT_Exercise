@@ -1,6 +1,6 @@
 package ch.hslu.appe.fbs.client.UiModels;
 
-import ch.hslu.appe.fbs.client.Userinterface.Shared.UserSingleton;
+import ch.hslu.appe.fbs.client.userinterface.Shared.UserSingleton;
 import ch.hslu.appe.fbs.common.dto.*;
 
 import java.sql.Timestamp;

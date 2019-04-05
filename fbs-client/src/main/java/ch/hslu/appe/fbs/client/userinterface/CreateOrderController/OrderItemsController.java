@@ -1,9 +1,9 @@
-package ch.hslu.appe.fbs.client.Userinterface.CreateOrderController;
+package ch.hslu.appe.fbs.client.userinterface.CreateOrderController;
 
 import ch.hslu.appe.fbs.client.UiModels.UiItem;
 import ch.hslu.appe.fbs.client.UiModels.UiOrder;
-import ch.hslu.appe.fbs.client.Userinterface.Shared.AlertMessages;
-import ch.hslu.appe.fbs.client.Userinterface.Shared.CurrentOrderSingleton;
+import ch.hslu.appe.fbs.client.userinterface.Shared.AlertMessages;
+import ch.hslu.appe.fbs.client.userinterface.Shared.CurrentOrderSingleton;
 import ch.hslu.appe.fbs.common.dto.ItemDTO;
 import ch.hslu.appe.fbs.common.exception.UserNotAuthorisedException;
 import ch.hslu.appe.fbs.common.rmi.ItemService;

@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 final class DataPopulator {
 
-    private final static Logger LOGGER = LogManager.getLogger(DataPopulator.class);
+    private static final Logger LOGGER = LogManager.getLogger(DataPopulator.class);
 
     private final EntityManager entityManager;
 

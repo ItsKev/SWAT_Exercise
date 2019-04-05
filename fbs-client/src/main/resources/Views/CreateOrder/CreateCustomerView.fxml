@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="648.0" prefWidth="563.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ch.hslu.appe.fbs.client.Userinterface.CreateOrderController.CreateCustomerController">
+<AnchorPane prefHeight="648.0" prefWidth="563.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ch.hslu.appe.fbs.client.userinterface.CreateOrderController.CreateCustomerController">
   <children>
     <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>

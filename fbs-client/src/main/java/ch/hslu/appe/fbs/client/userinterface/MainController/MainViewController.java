@@ -1,9 +1,9 @@
-package ch.hslu.appe.fbs.client.Userinterface.MainController;
+package ch.hslu.appe.fbs.client.userinterface.MainController;
 
-import ch.hslu.appe.fbs.client.Userinterface.CreateOrderController.OrderController;
-import ch.hslu.appe.fbs.client.Userinterface.Shared.CurrentOrderSingleton;
-import ch.hslu.appe.fbs.client.Userinterface.ViewOrderController.ViewAllOrdersController;
-import ch.hslu.appe.fbs.client.Userinterface.ViewReordersController.ViewReordersController;
+import ch.hslu.appe.fbs.client.userinterface.CreateOrderController.OrderController;
+import ch.hslu.appe.fbs.client.userinterface.Shared.CurrentOrderSingleton;
+import ch.hslu.appe.fbs.client.userinterface.ViewOrderController.ViewAllOrdersController;
+import ch.hslu.appe.fbs.client.userinterface.ViewReordersController.ViewReordersController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
