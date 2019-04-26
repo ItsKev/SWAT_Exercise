@@ -19,10 +19,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ItemManagerImpl implements ItemManager {
 
-    private static final Object LOCK = new Object();
+    private static final ReentrantLock lock = new ReentrantLock();
+
+    private static final String ITEM_NOT_FOUND = "Item not found!";
 
     private final ItemPersistor itemPersistor;
     private final ItemWrapper itemWrapper;
@@ -40,28 +43,34 @@ public class ItemManagerImpl implements ItemManager {
     @Override
     public List<ItemDTO> getAllItems(UserDTO userDTO) throws UserNotAuthorisedException {
         AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_ITEMS);
-        synchronized (LOCK) {
-            List<ItemDTO> itemDTOS = new ArrayList<>();
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+        lock.lock();
+        try {
             this.itemPersistor.getAllItems().forEach(item -> itemDTOS.add(itemWrapper.dtoFromEntity(item)));
-            return itemDTOS;
+        } finally {
+            lock.unlock();
         }
+        return itemDTOS;
     }
 
     @Override
     public void updateItemStock(ItemDTO itemDTO, int quantity) {
-        synchronized (LOCK) {
-            final Item item = this.itemWrapper.entityFromDTO(itemDTO);
-            int stock = item.getLocalStock() - quantity;
-            int virtualStock = item.getVirtualLocalStock() - quantity;
-            if (stock < 0) {
-                stock = 0;
-            }
-            item.setLocalStock(stock);
-            item.setVirtualLocalStock(virtualStock);
+        final Item item = this.itemWrapper.entityFromDTO(itemDTO);
+        int stock = item.getLocalStock() - quantity;
+        int virtualStock = item.getVirtualLocalStock() - quantity;
+        if (stock < 0) {
+            stock = 0;
+        }
+        item.setLocalStock(stock);
+        item.setVirtualLocalStock(virtualStock);
+        lock.lock();
+        try {
             this.itemPersistor.updateStock(item);
             reorderCheck(item.getId());
-            Logger.logInfo("", "Updated Item Stock of Item: " + item.getArtNr() + " to " + item.getLocalStock());
+        } finally {
+            lock.unlock();
         }
+        Logger.logInfo("", "Updated Item Stock of Item: " + item.getArtNr() + " to " + item.getLocalStock());
     }
 
     @Override
@@ -69,26 +78,33 @@ public class ItemManagerImpl implements ItemManager {
         if (newMinLocalStock < 1) {
             throw new IllegalArgumentException("minimum local stock has to be >= 1");
         }
-        synchronized (LOCK) {
-            final Item item = this.itemWrapper.entityFromDTO(itemDTO);
-            item.setMinLocalStock(newMinLocalStock);
+        final Item item = this.itemWrapper.entityFromDTO(itemDTO);
+        item.setMinLocalStock(newMinLocalStock);
+        lock.lock();
+        try {
             this.itemPersistor.updateStock(item);
             Logger.logInfo("", "Updated MinLocalStock of Item: " + item.getArtNr() + " to " + item.getMinLocalStock());
             if (newMinLocalStock > item.getLocalStock()) {
                 reorderCheck(item.getId());
             }
+        } finally {
+            lock.unlock();
         }
     }
 
     @Override
     public int getAvailableItemQuantity(int id) {
-        synchronized (LOCK) {
-            Optional<Item> item = this.itemPersistor.getItemById(id);
-            if (item.isPresent()) {
-                return item.get().getLocalStock();
-            }
-            throw new IllegalArgumentException("Item not found!");
+        Optional<Item> item = Optional.empty();
+        lock.lock();
+        try {
+            item = this.itemPersistor.getItemById(id);
+        } finally {
+            lock.unlock();
         }
+        if (item.isPresent()) {
+            return item.get().getLocalStock();
+        }
+        throw new IllegalArgumentException(ITEM_NOT_FOUND);
     }
 
     @Override
@@ -96,7 +112,8 @@ public class ItemManagerImpl implements ItemManager {
         if (quantity < 1) {
             throw new IllegalArgumentException("quantity has to be >= 1");
         }
-        synchronized (LOCK) {
+        lock.lock();
+        try {
             Optional<Item> itemById = this.itemPersistor.getItemById(itemDTO.getId());
             if (itemById.isPresent()) {
                 final Item itemFromDB = itemById.get();
@@ -110,8 +127,10 @@ public class ItemManagerImpl implements ItemManager {
                 this.itemPersistor.updateStock(itemFromDB);
                 Logger.logInfo("", "Refilled Item Stock of Item: " + itemDTO.getArtNr() + " to " + itemFromDB.getLocalStock());
             } else {
-                throw new IllegalArgumentException("Item not found!");
+                throw new IllegalArgumentException(ITEM_NOT_FOUND);
             }
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -121,7 +140,7 @@ public class ItemManagerImpl implements ItemManager {
         if (itemById.isPresent()) {
             return this.itemWrapper.dtoFromEntity(itemById.get());
         }
-        throw new IllegalArgumentException("Item not found!");
+        throw new IllegalArgumentException(ITEM_NOT_FOUND);
     }
 
     @Override
@@ -129,7 +148,8 @@ public class ItemManagerImpl implements ItemManager {
         if (quantity < 1) {
             throw new IllegalArgumentException("quantity has to be >= 1");
         }
-        synchronized (LOCK) {
+        lock.lock();
+        try {
             final Optional<Item> item = this.itemPersistor.getItemById(itemId);
             if (item.isPresent()) {
                 final Timestamp now = new Timestamp(new Date().getTime());
@@ -140,6 +160,8 @@ public class ItemManagerImpl implements ItemManager {
                 this.reorderPersistor.save(reorder);
                 this.centralStock.orderItem(item.get().getArtNr(), quantity);
             }
+        } finally {
+            lock.unlock();
         }
     }
 
