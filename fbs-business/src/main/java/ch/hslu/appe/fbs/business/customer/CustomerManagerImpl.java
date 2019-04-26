@@ -13,10 +13,11 @@ import ch.hslu.appe.fbs.wrapper.CustomerWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CustomerManagerImpl implements CustomerManager {
 
-    private static final Object LOCK = new Object();
+    private static final ReentrantLock lock = new ReentrantLock();
 
     private final CustomerPersistor customerPersistor;
     private final CustomerWrapper customerWrapper;
@@ -29,32 +30,42 @@ public class CustomerManagerImpl implements CustomerManager {
     @Override
     public List<CustomerDTO> getAllCustomers(UserDTO userDTO) throws UserNotAuthorisedException {
         AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_CUSTOMERS);
-        synchronized (LOCK) {
-            List<CustomerDTO> customers = new ArrayList<>();
+        List<CustomerDTO> customers = new ArrayList<>();
+        lock.lock();
+        try {
             this.customerPersistor.getAll().forEach(customer -> customers.add(customerWrapper.dtoFromEntity(customer)));
-            return customers;
+        } finally {
+            lock.unlock();
         }
+        return customers;
     }
 
     @Override
     public CustomerDTO getCustomer(int customerId, UserDTO userDTO) throws UserNotAuthorisedException {
         AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_CUSTOMER);
-        synchronized (LOCK) {
-            Optional<Customer> customer = this.customerPersistor.getById(customerId);
-            if (customer.isPresent()) {
-                return customerWrapper.dtoFromEntity(customer.get());
-            }
-            throw new IllegalArgumentException("Customer with id " + customerId + " not found!");
+        Optional<Customer> customer;
+        lock.lock();
+        try {
+            customer = this.customerPersistor.getById(customerId);
+        } finally {
+            lock.unlock();
         }
+        if (customer.isPresent()) {
+            return customerWrapper.dtoFromEntity(customer.get());
+        }
+        throw new IllegalArgumentException("Customer with id " + customerId + " not found!");
     }
 
     @Override
     public void createCustomer(CustomerDTO customerDTO, UserDTO userDTO) throws UserNotAuthorisedException {
         AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CREATE_CUSTOMER);
-        synchronized (LOCK) {
-            final Customer customer = this.customerWrapper.entityFromDTO(customerDTO);
+        final Customer customer = this.customerWrapper.entityFromDTO(customerDTO);
+        lock.lock();
+        try {
             this.customerPersistor.save(customer);
-            Logger.logInfo(userDTO.getUserName(), "Created new customer: " + customer.getSurname() + " " + customer.getPrename());
+        } finally {
+            lock.unlock();
         }
+        Logger.logInfo(userDTO.getUserName(), "Created new customer: " + customer.getSurname() + " " + customer.getPrename());
     }
 }
