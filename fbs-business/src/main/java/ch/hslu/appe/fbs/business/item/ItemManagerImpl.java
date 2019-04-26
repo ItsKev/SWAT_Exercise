@@ -2,20 +2,17 @@ package ch.hslu.appe.fbs.business.item;
 
 import ch.hslu.appe.fbs.business.authorisation.AuthorisationManager;
 import ch.hslu.appe.fbs.business.logger.Logger;
+import ch.hslu.appe.fbs.business.stock.Stock;
+import ch.hslu.appe.fbs.business.stock.StockException;
 import ch.hslu.appe.fbs.common.dto.ItemDTO;
 import ch.hslu.appe.fbs.common.dto.UserDTO;
 import ch.hslu.appe.fbs.common.exception.UserNotAuthorisedException;
 import ch.hslu.appe.fbs.common.permission.UserPermissions;
 import ch.hslu.appe.fbs.data.item.ItemPersistor;
-import ch.hslu.appe.fbs.data.item.ItemPersistorFactory;
 import ch.hslu.appe.fbs.data.reorder.ReorderPersistor;
-import ch.hslu.appe.fbs.data.reorder.ReorderPersistorFactory;
 import ch.hslu.appe.fbs.model.db.Item;
 import ch.hslu.appe.fbs.model.db.Reorder;
 import ch.hslu.appe.fbs.wrapper.ItemWrapper;
-import ch.hslu.appe.fbs.business.stock.Stock;
-import ch.hslu.appe.fbs.business.stock.StockException;
-import ch.hslu.appe.fbs.business.stock.StockFactory;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -32,11 +29,11 @@ public class ItemManagerImpl implements ItemManager {
     private final ReorderPersistor reorderPersistor;
     private final Stock centralStock;
 
-    public ItemManagerImpl() {
-        this.itemPersistor = ItemPersistorFactory.createItemPersistor();
+    public ItemManagerImpl(ItemPersistor itemPersistor, ReorderPersistor reorderPersistor, Stock centralStock) {
+        this.itemPersistor = itemPersistor;
+        this.reorderPersistor = reorderPersistor;
         this.itemWrapper = new ItemWrapper();
-        this.reorderPersistor = ReorderPersistorFactory.createReorderPersistor();
-        this.centralStock = StockFactory.getStock();
+        this.centralStock = centralStock;
     }
 
 
@@ -52,12 +49,6 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public void updateItemStock(ItemDTO itemDTO, int quantity) {
-        if (itemDTO == null) {
-            throw new IllegalArgumentException("object reference can't be null");
-        }
-        if (quantity < 1) {
-            throw new IllegalArgumentException("quantity has to be >= 1");
-        }
         synchronized (LOCK) {
             final Item item = this.itemWrapper.entityFromDTO(itemDTO);
             int stock = item.getLocalStock() - quantity;
@@ -75,9 +66,6 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public void updateMinLocalStock(ItemDTO itemDTO, int newMinLocalStock) {
-        if (itemDTO == null) {
-            throw new IllegalArgumentException("object reference can't be null");
-        }
         if (newMinLocalStock < 1) {
             throw new IllegalArgumentException("minimum local stock has to be >= 1");
         }
@@ -105,9 +93,6 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public void refillItemStock(ItemDTO itemDTO, int quantity) {
-        if (itemDTO == null) {
-            throw new IllegalArgumentException("object reference can't be null");
-        }
         if (quantity < 1) {
             throw new IllegalArgumentException("quantity has to be >= 1");
         }
@@ -124,6 +109,8 @@ public class ItemManagerImpl implements ItemManager {
                 itemFromDB.setVirtualLocalStock(virtualStock);
                 this.itemPersistor.updateStock(itemFromDB);
                 Logger.logInfo("", "Refilled Item Stock of Item: " + itemDTO.getArtNr() + " to " + itemFromDB.getLocalStock());
+            } else {
+                throw new IllegalArgumentException("Item not found!");
             }
         }
     }
@@ -143,29 +130,32 @@ public class ItemManagerImpl implements ItemManager {
             throw new IllegalArgumentException("quantity has to be >= 1");
         }
         synchronized (LOCK) {
-            final Timestamp now = new Timestamp(new Date().getTime());
-            final Reorder reorder = new Reorder();
-            reorder.setItemId(itemId);
-            reorder.setQuantity(quantity);
-            reorder.setReorderDate(now);
-            this.reorderPersistor.save(reorder);
-            this.centralStock.orderItem(reorder.getItemByItemId().getArtNr(), quantity);
+            final Optional<Item> item = this.itemPersistor.getItemById(itemId);
+            if (item.isPresent()) {
+                final Timestamp now = new Timestamp(new Date().getTime());
+                final Reorder reorder = new Reorder();
+                reorder.setItemId(itemId);
+                reorder.setQuantity(quantity);
+                reorder.setReorderDate(now);
+                this.reorderPersistor.save(reorder);
+                this.centralStock.orderItem(item.get().getArtNr(), quantity);
+            }
         }
     }
 
     private void reorderCheck(int itemId) {
         Optional<Item> optItem = this.itemPersistor.getItemById(itemId);
-        if(optItem.isPresent()){
+        if (optItem.isPresent()) {
             Item item = optItem.get();
             List<Reorder> reorders = reorderPersistor.getByItemId(itemId);
             int reorderedQuantity = 0;
             for (Reorder reorder : reorders) {
-                if(reorder.getDelivered() == null) {
+                if (reorder.getDelivered() == null) {
                     reorderedQuantity += reorder.getQuantity();
                 }
             }
             int reorderQuantity = item.getMinLocalStock() - (item.getVirtualLocalStock() + reorderedQuantity);
-            if(reorderQuantity > 0){
+            if (reorderQuantity > 0) {
                 try {
                     this.reorderItem(itemId, reorderQuantity);
                 } catch (StockException e) {
