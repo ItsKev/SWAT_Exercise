@@ -7,7 +7,6 @@ import ch.hslu.appe.fbs.common.dto.UserDTO;
 import ch.hslu.appe.fbs.common.exception.UserNotAuthorisedException;
 import ch.hslu.appe.fbs.common.permission.UserPermissions;
 import ch.hslu.appe.fbs.data.customer.CustomerPersistor;
-import ch.hslu.appe.fbs.data.customer.CustomerPersistorFactory;
 import ch.hslu.appe.fbs.model.db.Customer;
 import ch.hslu.appe.fbs.wrapper.CustomerWrapper;
 
@@ -22,8 +21,8 @@ public class CustomerManagerImpl implements CustomerManager {
     private final CustomerPersistor customerPersistor;
     private final CustomerWrapper customerWrapper;
 
-    public CustomerManagerImpl() {
-        this.customerPersistor = CustomerPersistorFactory.createCustomerPersistor();
+    public CustomerManagerImpl(CustomerPersistor customerPersistor) {
+        this.customerPersistor = customerPersistor;
         this.customerWrapper = new CustomerWrapper();
     }
 
@@ -51,12 +50,6 @@ public class CustomerManagerImpl implements CustomerManager {
 
     @Override
     public void createCustomer(CustomerDTO customerDTO, UserDTO userDTO) throws UserNotAuthorisedException {
-        if (customerDTO == null) {
-            throw new IllegalArgumentException("customer reference can't be null");
-        }
-        if (userDTO == null) {
-            throw new IllegalArgumentException("user reference can't be null");
-        }
         AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CREATE_CUSTOMER);
         synchronized (LOCK) {
             final Customer customer = this.customerWrapper.entityFromDTO(customerDTO);
