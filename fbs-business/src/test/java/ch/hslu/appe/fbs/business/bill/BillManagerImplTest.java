@@ -45,13 +45,7 @@ public class BillManagerImplTest {
     public void getAllBills_When_BillsRequested_Then_ReturnAllBills() {
         List<BillDTO> bills = billManager.getAllBills();
         List<Bill> expectedBills = createTesteeBills();
-        for (int i = 0; i < expectedBills.size(); i++) {
-            Bill expected = expectedBills.get(i);
-            BillDTO actual = bills.get(i);
-            Assert.assertEquals(expected.getId(), actual.getId());
-            Assert.assertEquals(expected.getOrderId(), actual.getOrderId());
-            Assert.assertEquals(expected.getPrice(), actual.getPrice());
-        }
+        checkIfTheActualBillEqualsTheExpected(bills, expectedBills, expectedBills.size());
     }
 
     @Test
@@ -74,13 +68,7 @@ public class BillManagerImplTest {
     public void getBillsByOrderId_When_RequestBillsWithOrderId_Then_ReturnCorrectBills() {
         List<Bill> expectedBills = createTesteeBillsWithOrderId(10);
         List<BillDTO> actualBills = billManager.getBillsByOrderId(10);
-        for (int i = 0; i < actualBills.size(); i++) {
-            Bill expected = expectedBills.get(i);
-            BillDTO actual = actualBills.get(i);
-            Assert.assertEquals(expected.getId(), actual.getId());
-            Assert.assertEquals(expected.getOrderId(), actual.getOrderId());
-            Assert.assertEquals(expected.getPrice(), actual.getPrice());
-        }
+        checkIfTheActualBillEqualsTheExpected(actualBills, expectedBills, actualBills.size());
     }
 
     @Test
@@ -116,6 +104,17 @@ public class BillManagerImplTest {
 
     @Test
     public void generateBill() {
+    }
+
+
+    private void checkIfTheActualBillEqualsTheExpected(List<BillDTO> bills, List<Bill> expectedBills, int size) {
+        for (int i = 0; i < size; i++) {
+            Bill expected = expectedBills.get(i);
+            BillDTO actual = bills.get(i);
+            Assert.assertEquals(expected.getId(), actual.getId());
+            Assert.assertEquals(expected.getOrderId(), actual.getOrderId());
+            Assert.assertEquals(expected.getPrice(), actual.getPrice());
+        }
     }
 
     private List<Bill> createTesteeBills() {

@@ -29,7 +29,7 @@
     "permissions": [
       "get_order",
       "get_all_orders",
-      "get_reorders",
+      "get_reorder",
       "get_all_reorders",
       "get_reminder",
       "get_all_reminders",
