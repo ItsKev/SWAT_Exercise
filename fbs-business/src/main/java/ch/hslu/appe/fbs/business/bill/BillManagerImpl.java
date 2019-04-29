@@ -27,11 +27,14 @@ public final class BillManagerImpl implements BillManager {
     private final BillWrapper billWrapper;
     private final OrderWrapper orderWrapper;
 
+    private final AuthorisationManager authorisationManager;
+
     public BillManagerImpl(BillPersistor billpersistor, ReminderPersistor reminderPersistor) {
         this.billPersistor = billpersistor;
         this.reminderPersistor = reminderPersistor;
         this.billWrapper = new BillWrapper();
         this.orderWrapper = new OrderWrapper();
+        this.authorisationManager = new AuthorisationManager();
     }
 
     @Override
@@ -75,7 +78,7 @@ public final class BillManagerImpl implements BillManager {
 
     @Override
     public List<BillDTO> getRemindedBillsByCustomerId(int customerId, UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_REMINDER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_REMINDER);
         synchronized (LOCK) {
             final List<BillDTO> bills = new ArrayList<>();
             final List<OrderDTO> orders = this.getOrdersByCustomerId(customerId);

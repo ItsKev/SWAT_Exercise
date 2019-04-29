@@ -16,10 +16,12 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     private final UserManager userManager;
+    private final AuthorisationManager authorisationManager;
 
     public UserServiceImpl() throws RemoteException {
         super();
         this.userManager = UserManagerFactory.getUserManager();
+        this.authorisationManager = new AuthorisationManager();
     }
 
     @Override
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
         final UserDTO userDTO = UserSessionDictionary.getUserSession();
         final Map<UserPermissions, Boolean> permissionMap = new HashMap<>();
         for (UserPermissions userPermission : userPermissions) {
-            final boolean permissionGranted = AuthorisationManager.checkUserPermission(userDTO, userPermission);
+            final boolean permissionGranted = authorisationManager.checkUserPermission(userDTO, userPermission);
             permissionMap.put(userPermission, permissionGranted);
         }
         return permissionMap;

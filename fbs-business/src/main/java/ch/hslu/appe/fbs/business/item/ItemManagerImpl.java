@@ -32,17 +32,20 @@ public class ItemManagerImpl implements ItemManager {
     private final ReorderPersistor reorderPersistor;
     private final Stock centralStock;
 
+    private final AuthorisationManager authorisationManager;
+
     public ItemManagerImpl(ItemPersistor itemPersistor, ReorderPersistor reorderPersistor, Stock centralStock) {
         this.itemPersistor = itemPersistor;
         this.reorderPersistor = reorderPersistor;
         this.itemWrapper = new ItemWrapper();
         this.centralStock = centralStock;
+        this.authorisationManager = new AuthorisationManager();
     }
 
 
     @Override
     public List<ItemDTO> getAllItems(UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_ITEMS);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_ITEMS);
         List<ItemDTO> itemDTOS = new ArrayList<>();
         lock.lock();
         try {

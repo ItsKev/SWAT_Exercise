@@ -41,6 +41,8 @@ public class OrderManagerImpl implements OrderManager {
     private final ItemManager itemManager;
     private final BillManager billManager;
 
+    private final AuthorisationManager authorisationManager;
+
     public OrderManagerImpl() {
         this.orderPersistor = OrderPersistorFactory.createOrderPersistor();
         this.orderItemPersistor = OrderItemPersistorFactory.createOrderItemPersistor();
@@ -49,11 +51,13 @@ public class OrderManagerImpl implements OrderManager {
         this.orderItemWrapper = new OrderItemWrapper();
         this.itemManager = ItemManagerFactory.getItemManager();
         this.billManager = BillManagerFactory.getBillManager();
+
+        this.authorisationManager = new AuthorisationManager();
     }
 
     @Override
     public List<OrderDTO> getOrders(int customerId, UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ORDER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ORDER);
         synchronized (LOCK) {
             List<OrderDTO> orders = new ArrayList<>();
             this.orderPersistor.getByCustomer(customerId).forEach(order -> orders.add(orderWrapper.dtoFromEntity(order)));
@@ -71,7 +75,7 @@ public class OrderManagerImpl implements OrderManager {
         if (orderState == null) {
             throw new IllegalArgumentException("object reference can't be null");
         }
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ORDER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ORDER);
         synchronized (LOCK) {
             List<OrderDTO> orders = new ArrayList<>();
             this.orderPersistor.getByCustomerAndOrderState(customerId, orderState.getId())
@@ -85,7 +89,7 @@ public class OrderManagerImpl implements OrderManager {
         if (order == null) {
             throw new IllegalArgumentException("object reference can't be null");
         }
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CREATE_ORDER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CREATE_ORDER);
         synchronized (LOCK) {
             final Order persOrder = this.orderWrapper.entityFromDTO(order);
             this.orderPersistor.save(persOrder);
@@ -113,7 +117,7 @@ public class OrderManagerImpl implements OrderManager {
         if (order == null) {
             throw new IllegalArgumentException("object reference can't be null");
         }
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CANCEL_ORDER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CANCEL_ORDER);
         synchronized (LOCK) {
             final Order persOrder = this.orderWrapper.entityFromDTO(order);
             final Optional<OrderState> optOrderState = this.orderStatePersistor.getByState(OrderStates.CANCELLED.getState());
@@ -133,7 +137,7 @@ public class OrderManagerImpl implements OrderManager {
         if (order == null) {
             throw new IllegalArgumentException("object reference can't be null");
         }
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.EDIT_ORDER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.EDIT_ORDER);
         synchronized (LOCK) {
             final Order persOrder = this.orderWrapper.entityFromDTO(order);
             final Optional<Order> oldOrder = this.orderPersistor.getById(persOrder.getId());
@@ -155,7 +159,7 @@ public class OrderManagerImpl implements OrderManager {
 
     @Override
     public List<OrderDTO> getAllOrders(UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_ORDERS);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_ORDERS);
         List<OrderDTO> orders = new ArrayList<>();
         synchronized (LOCK) {
             this.orderPersistor.getAll().forEach(order -> orders.add(this.orderWrapper.dtoFromEntity(order)));

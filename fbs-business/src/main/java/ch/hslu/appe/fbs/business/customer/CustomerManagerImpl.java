@@ -22,14 +22,17 @@ public class CustomerManagerImpl implements CustomerManager {
     private final CustomerPersistor customerPersistor;
     private final CustomerWrapper customerWrapper;
 
+    private final AuthorisationManager authorisationManager;
+
     public CustomerManagerImpl(CustomerPersistor customerPersistor) {
         this.customerPersistor = customerPersistor;
         this.customerWrapper = new CustomerWrapper();
+        this.authorisationManager = new AuthorisationManager();
     }
 
     @Override
     public List<CustomerDTO> getAllCustomers(UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_CUSTOMERS);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_CUSTOMERS);
         List<CustomerDTO> customers = new ArrayList<>();
         lock.lock();
         try {
@@ -42,7 +45,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
     @Override
     public CustomerDTO getCustomer(int customerId, UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_CUSTOMER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_CUSTOMER);
         Optional<Customer> customer;
         lock.lock();
         try {
@@ -58,7 +61,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
     @Override
     public void createCustomer(CustomerDTO customerDTO, UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CREATE_CUSTOMER);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.CREATE_CUSTOMER);
         final Customer customer = this.customerWrapper.entityFromDTO(customerDTO);
         lock.lock();
         try {

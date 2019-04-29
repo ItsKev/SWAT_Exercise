@@ -1,0 +1,60 @@
+[
+  {
+    "name": "sysadmin",
+    "permissions": [
+      "admin"
+    ]
+  },
+  {
+    "name": "datatypist",
+    "permissions": [
+      "add_item",
+      "edit_item",
+      "delete_item",
+      "mark_reorder_delivered",
+      "get_customer",
+      "get_all_customers",
+      "get_order",
+      "get_all_orders",
+      "get_reorder",
+      "get_all_reorders",
+      "get_reminder",
+      "get_all_reminders",
+      "get_item",
+      "get_all_items"
+    ]
+  },
+  {
+    "name": "branchmanager",
+    "permissions": [
+      "get_order",
+      "get_all_orders",
+      "get_reorders",
+      "get_all_reorders",
+      "get_reminder",
+      "get_all_reminders",
+      "view_logs"
+    ]
+  },
+  {
+    "name": "salesperson",
+    "permissions": [
+      "create_customer",
+      "edit_customer",
+      "delete_customer",
+      "create_order",
+      "edit_order",
+      "cancel_order",
+      "get_customer",
+      "get_all_customers",
+      "get_order",
+      "get_all_orders",
+      "get_reorder",
+      "get_all_reorders",
+      "get_reminder",
+      "get_all_reminders",
+      "get_item",
+      "get_all_items"
+    ]
+  }
+]

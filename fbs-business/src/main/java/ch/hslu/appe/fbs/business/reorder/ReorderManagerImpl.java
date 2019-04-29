@@ -28,16 +28,20 @@ public final class ReorderManagerImpl implements ReorderManager {
     private final ItemManager itemManager;
     private final ItemWrapper itemWrapper;
 
+    private final AuthorisationManager authorisationManager;
+
     public ReorderManagerImpl() {
         this.reorderPersistor = ReorderPersistorFactory.createReorderPersistor();
         this.reorderWrapper = new ReorderWrapper();
         this.itemManager = ItemManagerFactory.getItemManager();
         this.itemWrapper = new ItemWrapper();
+
+        this.authorisationManager = new AuthorisationManager();
     }
 
     @Override
     public void markReorderAsDelivered(final int reorderId, final UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.MARK_REORDER_DELIVERED);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.MARK_REORDER_DELIVERED);
         synchronized (LOCK) {
             Optional<Reorder> optionalReorder = this.reorderPersistor.getById(reorderId);
             if (optionalReorder.isPresent()) {
@@ -52,7 +56,7 @@ public final class ReorderManagerImpl implements ReorderManager {
 
     @Override
     public List<ReorderDTO> getAllReorders(final UserDTO userDTO) throws UserNotAuthorisedException {
-        AuthorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_REORDERS);
+        authorisationManager.checkUserAuthorisation(userDTO, UserPermissions.GET_ALL_REORDERS);
         synchronized (LOCK) {
             List<ReorderDTO> reorders = new ArrayList<>();
             this.reorderPersistor.getAll().forEach(reorder -> reorders.add(this.reorderWrapper.dtoFromEntity(reorder)));
