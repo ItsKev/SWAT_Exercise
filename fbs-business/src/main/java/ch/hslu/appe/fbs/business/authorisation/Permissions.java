@@ -17,7 +17,7 @@ public class Permissions {
 
     private static final Logger LOGGER = LogManager.getLogger(Permissions.class);
 
-    private List<Permission> permissions;
+    private List<Permission> permissionsFromJson;
 
     public Permissions() {
         File file = new File(getClass().getClassLoader().getResource("permissions.json").getFile());
@@ -25,25 +25,25 @@ public class Permissions {
         try {
             json = Files.readAllBytes(file.toPath());
         } catch (IOException e) {
-            e.printStackTrace();
-            permissions = Collections.emptyList();
+            LOGGER.error(e);
+            permissionsFromJson = Collections.emptyList();
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            permissions = Arrays.asList(objectMapper.readValue(json, Permission[].class));
+            permissionsFromJson = Arrays.asList(objectMapper.readValue(json, Permission[].class));
         } catch (IOException e) {
-            e.printStackTrace();
-            permissions = Collections.emptyList();
+            LOGGER.error(e);
+            permissionsFromJson = Collections.emptyList();
         }
     }
 
     public List<Permission> getPermissions() {
-        return permissions;
+        return permissionsFromJson;
     }
 
     public Optional<Permission> getPermission(UserRoles userRole) {
-        return permissions.stream().filter(permission ->
-                permission.getName().toLowerCase().equals(userRole.name().toLowerCase())).findFirst();
+        return permissionsFromJson.stream().filter(permission ->
+                permission.getName().equalsIgnoreCase(userRole.name())).findFirst();
     }
 }
