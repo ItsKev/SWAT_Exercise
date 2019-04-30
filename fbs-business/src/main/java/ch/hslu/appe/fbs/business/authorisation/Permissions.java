@@ -39,7 +39,7 @@ public class Permissions {
     }
 
     public List<Permission> getPermissions() {
-        return permissionsFromJson;
+        return Collections.unmodifiableList(permissionsFromJson);
     }
 
     public Optional<Permission> getPermission(UserRoles userRole) {

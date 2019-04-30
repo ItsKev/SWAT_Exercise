@@ -4,6 +4,7 @@ import ch.hslu.appe.fbs.common.permission.UserPermissions;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Permission {
@@ -27,7 +28,7 @@ public class Permission {
             userPermissions = new ArrayList<>();
             permissions.forEach(permission -> userPermissions.add(UserPermissions.valueOf(permission.toUpperCase())));
         }
-        return userPermissions;
+        return Collections.unmodifiableList(userPermissions);
     }
 
 }
